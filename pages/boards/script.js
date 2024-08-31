@@ -25,31 +25,31 @@ class TaskManager {
     this.currentTaskId = null
 
     this.taskList = $('.list__task')
-    this.addButton = $('.add__button')
-    this.clearButton = $('.clear__button')
-    this.filterInput = $('#filter')
-    this.cancelButtons = $$('.cancel-modal')
-    this.edit_task = $('.modal')
-    this.saveButtons = $$('.save-modal')
+    this.addTaskButton = $('.add__button')
+    this.clearTaskNameButton = $('.clear__button')
+    this.filterTaskInput = $('#filter')
+    this.cancelAddTaskButton = $$('.cancel-modal')
+    this.editTaskModal = $('.modal')
+    this.saveTaskButton = $$('.save-modal')
 
     this.addEventListeners()
     this.renderTasks()
   }
 
   addEventListeners () {
-    this.addButton.addEventListener('click', () => this.addTask())
-    this.cancelButtons.forEach(button =>
+    this.addTaskButton.addEventListener('click', () => this.addTask())
+    this.cancelAddTaskButton.forEach(button =>
       button.addEventListener('click', () => this.cancelEdit())
     )
-    this.saveButtons.forEach(button =>
+    this.saveTaskButton.forEach(button =>
       button.addEventListener('click', () => this.saveEdit())
     )
-    this.filterInput.addEventListener('change', () => this.filterTasks())
-    this.clearButton.addEventListener('click', () => this.clearAdd())
+    this.filterTaskInput.addEventListener('change', () => this.filterTasks())
+    this.clearTaskNameButton.addEventListener('click', () => this.clearAdd())
   }
 
   filterTasks () {
-    this.currentFilter = this.filterInput.value
+    this.currentFilter = this.filterTaskInput.value
     this.renderTasks()
   }
 
@@ -64,7 +64,7 @@ class TaskManager {
     if (taskName) {
       if (this.currentFilter === StateOfFilterTasks.DONE) {
         this.currentFilter = StateOfFilterTasks.ALL
-        this.filterInput.value = StateOfFilterTasks.ALL
+        this.filterTaskInput.value = StateOfFilterTasks.ALL
       }
       const newTask = {
         id: generateId(),
@@ -84,7 +84,7 @@ class TaskManager {
     this.currentTaskId = id
     const editInput = $('.edit__input')
     editInput.value = this.tasks.find(task => task.id === id).name
-    this.toggleModal(this.edit_task, true)
+    this.toggleModal(this.editTaskModal, true)
   }
 
   saveEdit () {
@@ -97,14 +97,14 @@ class TaskManager {
       listTask = listTask.map(task =>
         task.id === this.currentTaskId ? { ...task, name: newName } : task
       )
-      this.toggleModal(this.edit_task, false)
+      this.toggleModal(this.editTaskModal, false)
       this.updateStorage()
       this.renderTasks()
     }
   }
 
   cancelEdit () {
-    this.toggleModal(this.edit_task, false)
+    this.toggleModal(this.editTaskModal, false)
   }
 
   deleteTask (id) {
